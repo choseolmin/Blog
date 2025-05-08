@@ -1,20 +1,130 @@
-
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>설민의 블로그</title>
-    </head>
-    <body>
-        <a href="" title="">사이트로 이동</a>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>대나무 숲 블로그</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 30px auto;
+      background-image: url('https://i.namu.wiki/i/ADqTE_FEsTesnHmNFsUc4wzj2fzx5csmsCzZbnPOETHHMhxzIBUj9b6GPaE8rgwUsCgDlETDRaDWfsUm0KA_9gXDBTRSTo6wYk0Ljypw2FJL7r2D97P1FaTFI5LUw54hxn5HuX-3ns8wE3e9bgH7hw.webp');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: #000; 
 
-        <img src="" alt="" width="300">
+    }
+    textarea {
+      width: 96%;
+      height: 60px;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .comment {
+      background: rgba(255, 255, 255, 0.6);
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      white-space: pre-wrap; 
+    }
+    .comment button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+    .center-text {
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 15px;
+      border-radius: 10px;
+      color: #000;
+      text-shadow: 
+    -1px -1px 0 #fff,  
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
+    }
 
-        <form>
-            <input "이름을 입력하세요" required>
-            <button>제출</button>
-        </form>
 
+  </style>
+</head>
+<body>
 
-    </body>
+  <h2 class="center-text"> 대나무 숲 🎋 블로그 입니다. <br> 💬 댓글로 자유롭게 이야기 해주세요</h2>
+  <textarea id="commentInput" placeholder="댓글을 입력하세요..."></textarea><br>
+  <button onclick="addComment()">등록</button>
+
+  <div id="commentList"></div>
+
+  <script>
+    function getComments() {
+      return JSON.parse(localStorage.getItem("comments") || "[]");
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem("comments", JSON.stringify(comments));
+    }
+
+    function renderComments() {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "";
+
+      const comments = getComments();
+      comments.forEach((comment, index) => {
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `
+  <span>${comment}</span>
+  <button onclick="deleteComment(${index})">삭제</button>
+`;
+        list.appendChild(div);
+      });
+    }
+
+    function addComment() {
+      const input = document.getElementById("commentInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const comments = getComments();
+      comments.push(text);
+      saveComments(comments);
+      input.value = "";
+      renderComments();
+    }
+
+    function deleteComment(index) {
+      const comments = getComments();
+      comments.splice(index, 1);
+      saveComments(comments);
+      renderComments();
+    }
+
+    renderComments(); 
+  </script>
+
+</body>
+
+<footer style="text-align: center; margin-top: 50px; color: #000; font-size: 14px;">
+    ⓒ 2025 대나무 숲 블로그 · 만든이: 조설민
+</footer>
+  
+
 </html>
